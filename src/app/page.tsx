@@ -1,7 +1,7 @@
+import AskForm from "@/components/AskForm"
 import Footer from "@/components/Footer"
-import { Button } from "@/components/ui/button"
+import SearchForm from "@/components/SearchForm"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
 
 export default function Home() {
   return (
@@ -13,16 +13,10 @@ export default function Home() {
             <TabsTrigger value="search">Search</TabsTrigger>
           </TabsList>
           <TabsContent value="ai">
-            <form>
-              <Textarea placeholder="Ask something..." />
-              <Button>Ask</Button>
-            </form>
+            <AskForm />
           </TabsContent>
           <TabsContent value="search">
-            <form>
-              <Textarea placeholder="Type anything..." />
-              <Button>Search</Button>
-            </form>
+            <SearchForm />
           </TabsContent>
         </Tabs>
       </main>
