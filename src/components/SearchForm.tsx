@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { redirect } from "next/navigation"
 
 const formSchema = z.object({
   query: z.string().min(1, {
@@ -23,9 +24,7 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>
 
 function onSubmit(values: FormSchemaType) {
-  // Do something with the form values.
-  // ✅ This will be type-safe and validated.
-  console.log(values)
+  redirect(`/search/${values.query}`)
 }
 
 export default function SearchForm() {
