@@ -13,6 +13,15 @@ import {
   Search,
   UserPlus,
 } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import Forms from "./Forms"
 
 export default async function Header() {
   const { getUser } = getKindeServerSession()
@@ -26,10 +35,22 @@ export default async function Header() {
             <MessageSquare />
             Chats
           </Button>
-          <Button>
-            <Search />
-            Search
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Search /> Search
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader className="hidden">
+                <DialogTitle>Share link</DialogTitle>
+                <DialogDescription>
+                  Anyone who has this link will be able to view this.
+                </DialogDescription>
+              </DialogHeader>
+              <Forms />
+            </DialogContent>
+          </Dialog>
           <Button variant="outline">
             <Library />
             Library
