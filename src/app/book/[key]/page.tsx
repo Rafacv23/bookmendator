@@ -40,7 +40,7 @@ export default async function BookPage({
   // Image URL handling with a fallback
   const imageUrl = book.covers?.[0]
     ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
-    : null
+    : `https://placehold.co/180x280?text=${book.title}`
 
   // Handle description safely
   const description = book.description?.value || "No description available."
@@ -53,7 +53,7 @@ export default async function BookPage({
             <img
               src={imageUrl}
               alt={book.title}
-              className="mb-4 rounded shadow-xl"
+              className="mb-4 rounded shadow-xl aspect-auto"
             />
           )}
           <div className="flex flex-col gap-2">
