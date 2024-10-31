@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Forms from "./Forms"
+import Link from "next/link"
 
 export default async function Header() {
   const { getUser } = getKindeServerSession()
@@ -51,10 +52,13 @@ export default async function Header() {
               <Forms />
             </DialogContent>
           </Dialog>
-          <Button variant="outline">
+          <Link
+            className={buttonVariants({ variant: "outline" })}
+            href="/library"
+          >
             <Library />
             Library
-          </Button>
+          </Link>
           <LogoutLink className={buttonVariants({ variant: "destructive" })}>
             <LogOut />
             Logout
