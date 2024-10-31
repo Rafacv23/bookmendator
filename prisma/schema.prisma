@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 enum Visibility {
@@ -75,7 +75,7 @@ model Book {
   publishedDate  DateTime?
   genres         String[]
   country        String?
-  rating         RatingLabel? // extremelyPositive, veryPositive, mostlyPositive, mixed, negative, veryNegative
+  rating         RatingLabel
   createdAt      DateTime @default(now())
   libraries      Library[]
   comments       Comment[]
@@ -100,8 +100,9 @@ model Review {
   book        Book     @relation(fields: [bookId], references: [id])
   bookId      String
   rating      Boolean  // true: recomienda, false: no recomienda
-  title       String?
-  body        String?
+  title       String? // Opcional
+  body        String? // Opcional
+  visibility  Visibility   // public | private
   createdAt   DateTime @default(now())
   modifiedAt  DateTime @updatedAt
 }
