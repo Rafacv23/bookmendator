@@ -47,7 +47,7 @@ export default async function SearchPage({
         <h1>
           Results for {data.q} total results {data.num_found}
         </h1>
-        <ul className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {books.map((book) => (
             <li key={book.key} className="flex items-center gap-4">
               <Link href={`/book/${book.key}`}>
