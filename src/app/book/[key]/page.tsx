@@ -1,9 +1,13 @@
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Bookmark, Share2 } from "lucide-react"
+
 export default async function BookPage({
   params,
 }: {
   params: { key: string }
 }) {
-  const key = params.key // No need to await here
+  const key = await params.key // Access directly without awaiting
   const url = `https://openlibrary.org/books/${key}.json`
 
   // Fetch the book details
@@ -35,32 +39,54 @@ export default async function BookPage({
 
   // Image URL handling with a fallback
   const imageUrl = book.covers?.[0]
-    ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
+    ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
     : null
 
+  // Handle description safely
+  const description = book.description?.value || "No description available."
+
   return (
-    <div className="flex flex-col items-center p-4">
-      <div className="flex">
-        {imageUrl && <img src={imageUrl} alt={book.title} className="mb-4" />}
-        <div>
-          <h1 className="text-xl font-bold">{book.title}</h1>
-          <p>Author: {author.name}</p>
-          <p>short description</p>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <div className="flex gap-4">
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt={book.title}
+              className="mb-4 rounded shadow-xl"
+            />
+          )}
+          <div className="flex flex-col gap-2">
+            <h1 className="text-4xl font-bold">{book.title}</h1>
+            <h2 className="text-xl font-semibold">{author.name}</h2>
+            <div className="flex gap-2">
+              <Button>Start Reading</Button>
+              <Button>
+                <Bookmark />
+              </Button>
+              <Button>
+                <Share2 />
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex">
-        <div>
-          <h3>Description</h3>
-          <p>Aqui ira la descripcion completa del libro</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <h3 className="text-lg font-semibold">Description</h3>
+            <p>{description}</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Subjects</h3>
+            <ul className="flex flex-wrap gap-2">
+              {book.subjects?.slice(0, 5).map((subject: string) => (
+                <li key={subject}>
+                  <Badge>{subject}</Badge>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div>
-          <h3>Editors</h3>
-          <h3>Languages</h3>
-          <h3>Subjects</h3>
-        </div>
-      </div>
-      <p>Published: {book.publish_date || "Unknown Date"}</p>
-      <p>Number of Pages: {book.number_of_pages || "N/A"}</p>
+      </main>
     </div>
   )
 }
