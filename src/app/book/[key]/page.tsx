@@ -48,7 +48,7 @@ export default async function BookPage({
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="flex gap-4">
+        <div className="sm:flex gap-4">
           {imageUrl && (
             <img
               src={imageUrl}
@@ -70,7 +70,7 @@ export default async function BookPage({
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <h3 className="text-lg font-semibold">Description</h3>
             <p>{description}</p>
