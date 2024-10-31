@@ -66,11 +66,11 @@ export default async function Header() {
         </>
       ) : (
         <>
-          <RegisterLink>
+          <RegisterLink className={buttonVariants({ variant: "outline" })}>
             <UserPlus />
             New user
           </RegisterLink>
-          <LoginLink>
+          <LoginLink className={buttonVariants({ variant: "outline" })}>
             <LogIn />
             Log in
           </LoginLink>
