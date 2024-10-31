@@ -1,14 +1,125 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+enum Visibility {
+  public
+  private
+}
+
+enum BookReview {
+  like
+  dislike
+}
+
+enum BookStatus {
+  readed
+  toRead
+  dropped
+  reading
+}
+
+enum Sender {
+  user
+  ai
+}
+
+enum RatingLabel {
+  extremelyPositive
+  veryPositive
+  mostlyPositive
+  mixed
+  negative
+  veryNegative
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  kindeId   String   @unique
+  name      String
+  email     String   @unique
+  password  String
+  theme     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  library   Library? // Cada usuario puede tener solo una biblioteca
+  reviews   Review[]
+  comments  Comment[]
+  chats     Chat[]
+}
+
+model Library {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int       @unique // Cada usuario tiene solo una biblioteca
+  visibility  Visibility    // public | private
+  book        Book      @relation(fields: [bookId], references: [id])
+  bookId      String
+  bookReview  BookReview    // like, dislike
+  bookStatus  BookStatus    // read, to read, dropped, reading
+  createdAt   DateTime  @default(now())
+  modifiedAt  DateTime  @updatedAt
+}
+
+model Book {
+  id             String   @id // Usa el mismo ID de la API
+  title          String
+  description    String?
+  author         String
+  cover          String?
+  publishedDate  DateTime?
+  genres         String[]
+  country        String?
+  rating         RatingLabel? // extremelyPositive, veryPositive, mostlyPositive, mixed, negative, veryNegative
+  createdAt      DateTime @default(now())
+  libraries      Library[]
+  comments       Comment[]
+  reviews        Review[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  book        Book     @relation(fields: [bookId], references: [id])
+  bookId      String
+  rating      Boolean  // true: recomienda, false: no recomienda
+  title       String?
+  body        String?
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+}
+
+model Chat {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int
+  visibility Visibility    // public | private
+  createdAt  DateTime  @default(now())
+  messages   Message[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    Int
+  content   String
+  sender    Sender   // user | IA
+  createdAt DateTime @default(now())
 }
