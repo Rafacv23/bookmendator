@@ -39,11 +39,10 @@ enum RatingLabel {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  kindeId   String   @unique
+  id        String   @id @unique
   name      String
   email     String   @unique
-  password  String
+  password  String?
   theme     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,14 +55,14 @@ model User {
 model Library {
   id          Int       @id @default(autoincrement())
   user        User      @relation(fields: [userId], references: [id])
-  userId      Int       @unique // Cada usuario tiene solo una biblioteca
+  userId      String    @unique
   visibility  Visibility    // public | private
   book        Book      @relation(fields: [bookId], references: [id])
   bookId      String
   bookReview  BookReview    // like, dislike
   bookStatus  BookStatus    // read, to read, dropped, reading
   createdAt   DateTime  @default(now())
-  modifiedAt  DateTime  @updatedAt
+  modifiedAt  DateTime @updatedAt
 }
 
 model Book {
@@ -85,7 +84,7 @@ model Book {
 model Comment {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
   book      Book     @relation(fields: [bookId], references: [id])
   bookId    String
   content   String
@@ -96,7 +95,7 @@ model Comment {
 model Review {
   id          Int      @id @default(autoincrement())
   user        User     @relation(fields: [userId], references: [id])
-  userId      Int
+  userId      String
   book        Book     @relation(fields: [bookId], references: [id])
   bookId      String
   rating      Boolean  // true: recomienda, false: no recomienda
@@ -110,7 +109,7 @@ model Review {
 model Chat {
   id         Int       @id @default(autoincrement())
   user       User      @relation(fields: [userId], references: [id])
-  userId     Int
+  userId     String
   visibility Visibility    // public | private
   createdAt  DateTime  @default(now())
   messages   Message[]
