@@ -3,10 +3,13 @@ import Link from "next/link"
 
 interface BookApiResponse {
   author_name: string[]
+  author_key: string
+  first_publish_year: number
   key: string
   title: string
   isbn: string
   cover_i: string
+  place: string
 }
 
 export default async function SearchPage({
@@ -21,9 +24,12 @@ export default async function SearchPage({
   const books: Book[] = data.docs.map((book: BookApiResponse) => ({
     title: book.title,
     author: book.author_name?.[0] || "Unknown Author",
+    authorKey: book.author_key,
+    publishedYear: book.first_publish_year,
     key: book.key.replace("/works/", "").replace("/books/", ""), // Extract key without prefix
     isbn: book.isbn?.[0] || "no-isbn",
     cover: book.cover_i || null,
+    place: book.place,
   }))
 
   console.log(books)
