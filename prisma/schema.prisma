@@ -36,6 +36,7 @@ enum RatingLabel {
   mixed
   negative
   veryNegative
+  unrated
 }
 
 model User {
