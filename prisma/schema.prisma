@@ -73,7 +73,7 @@ model Book {
   author         String
   cover          String?
   publishedDate  DateTime?
-  genres         String[]
+  subjects       String[]
   country        String?
   rating         RatingLabel
   createdAt      DateTime @default(now())
