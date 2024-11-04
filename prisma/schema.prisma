@@ -15,6 +15,7 @@ enum Visibility {
 enum BookReview {
   like
   dislike
+  unrated
 }
 
 enum BookStatus {
@@ -60,7 +61,7 @@ model Library {
   visibility  Visibility    // public | private
   book        Book      @relation(fields: [bookId], references: [id])
   bookId      String
-  bookReview  BookReview    // like, dislike
+  bookReview  BookReview?    // like, dislike, unrated
   bookStatus  BookStatus    // read, to read, dropped, reading
   createdAt   DateTime  @default(now())
   modifiedAt  DateTime @updatedAt
