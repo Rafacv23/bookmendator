@@ -1,8 +1,8 @@
+import BookButtons from "@/components/BookButtons"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { SITE_URL } from "@/site/config"
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { PrismaClient } from "@prisma/client"
-import { Bookmark, Share2 } from "lucide-react"
 
 const prisma = new PrismaClient()
 
@@ -11,7 +11,9 @@ export default async function BookPage({
 }: {
   params: { key: string }
 }) {
-  const key = params.key // Access directly without awaiting
+  const key = await params.key
+  const { getUser } = getKindeServerSession()
+  const user = await getUser()
 
   // Check if the book exists in the database
   const res = await fetch(`${SITE_URL}/api/book/${key}`)
@@ -65,9 +67,14 @@ export default async function BookPage({
     bookData = await res.json()
   }
 
-  const { title, cover, description, author: bookAuthor, subjects } = bookData
-
-  console.log(bookData)
+  const {
+    title,
+    cover,
+    description,
+    author: bookAuthor,
+    subjects,
+    rating,
+  } = bookData
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -83,15 +90,8 @@ export default async function BookPage({
           <div className="flex flex-col gap-2">
             <h1 className="text-4xl font-bold">{title}</h1>
             <h2 className="text-xl font-semibold">{bookAuthor}</h2>
-            <div className="flex gap-2">
-              <Button>Start Reading</Button>
-              <Button>
-                <Bookmark />
-              </Button>
-              <Button>
-                <Share2 />
-              </Button>
-            </div>
+            <p>User reviews: {rating}</p>
+            <BookButtons bookId={key} userId={user.id} />
           </div>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
@@ -109,6 +109,10 @@ export default async function BookPage({
               ))}
             </ul>
           </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold">Comments</h3>
+          Aqui irán los comentarios de los usuarios
         </div>
       </main>
     </div>
