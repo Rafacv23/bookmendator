@@ -26,7 +26,7 @@ export default async function Page() {
         <ul>
           {library.map((book) => (
             <li key={book.bookId} className="flex items-center gap-4">
-              <Link href={`/book/${book.key}`}>
+              <Link href={`/book/${book.bookId}`}>
                 <Card className="hover:shadow-lg transition-all hover:scale-105 hover:cursor-pointer max-w-sm w-96 h-40">
                   <CardHeader className="flex flex-row items-center gap-4">
                     {book.book.cover && (
