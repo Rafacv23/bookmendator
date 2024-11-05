@@ -1,4 +1,5 @@
 import BookCard from "@/components/BookCard"
+import Container from "@/components/Container"
 import { Book } from "@/types/types"
 
 interface BookApiResponse {
@@ -35,24 +36,22 @@ export default async function SearchPage({
   }))
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start max-w-7xl">
-        <h1>
-          Results for {data.q} total results {data.num_found}
-        </h1>
-        <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
-          {books.map((book) => (
-            <li key={book.key} className="flex items-center gap-4">
-              <BookCard
-                id={book.key}
-                title={book.title}
-                author={book.author}
-                cover={book.cover}
-              />
-            </li>
-          ))}
-        </ul>
-      </main>
-    </div>
+    <Container>
+      <h1>
+        Results for {data.q} total results {data.num_found}
+      </h1>
+      <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        {books.map((book) => (
+          <li key={book.key} className="flex items-center gap-4">
+            <BookCard
+              id={book.key}
+              title={book.title}
+              author={book.author}
+              cover={book.cover}
+            />
+          </li>
+        ))}
+      </ul>
+    </Container>
   )
 }
