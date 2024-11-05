@@ -39,7 +39,7 @@ export default async function BookPage({
 
   return (
     <Container>
-      <div className="sm:flex gap-4">
+      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-center">
         {cover && (
           <img
             src={cover}
