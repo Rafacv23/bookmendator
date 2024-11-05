@@ -20,6 +20,7 @@ export async function GET(
     // retrieve library of the user
     const libraryEntries = await prisma.library.findMany({
       where: { userId: params.userId },
+      orderBy: { modifiedAt: "desc" },
     })
 
     if (!libraryEntries) {
