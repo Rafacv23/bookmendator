@@ -6,6 +6,7 @@ import {
   CardDescription,
 } from "@/components/ui/card"
 import BookSettings from "./BookSettings"
+import { BookReview, BookStatus } from "@prisma/client"
 
 export interface BookCardProps {
   id: string
@@ -13,6 +14,9 @@ export interface BookCardProps {
   title: string
   author: string
   isLibrary: boolean
+  libraryId?: number
+  bookStatus?: BookStatus
+  bookReview?: BookReview
 }
 
 export default function BookCard({
@@ -21,6 +25,9 @@ export default function BookCard({
   title,
   author,
   isLibrary,
+  libraryId,
+  bookStatus,
+  bookReview,
 }: BookCardProps) {
   return (
     <Card className="hover:shadow-lg transition-all hover:scale-105 hover:cursor-pointer max-w-sm w-96 h-auto">
@@ -40,7 +47,14 @@ export default function BookCard({
           </div>
         </CardHeader>
       </Link>
-      {isLibrary ? <BookSettings /> : null}
+      {isLibrary ? (
+        <BookSettings
+          bookId={id}
+          libraryId={libraryId}
+          bookReview={bookReview}
+          bookStatus={bookStatus}
+        />
+      ) : null}
     </Card>
   )
 }
