@@ -1,15 +1,16 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 import {
-  BookCheck,
-  Library,
-  BookX,
-  Heart,
-  HeartOff,
-  MessageSquareMore,
-  BookOpen,
-  Settings,
-} from "lucide-react"
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form"
+import { Settings, MessageSquareMore } from "lucide-react"
 import {
   Drawer,
   DrawerClose,
@@ -22,21 +23,42 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@radix-ui/react-label"
 import { CardFooter } from "@/components/ui/card"
+import { useState } from "react"
+
+const formSchema = z.object({
+  status: z.enum(["readed", "reading", "toRead", "dropped"], {
+    required_error: "You need to pick a status.",
+  }),
+  rating: z.enum(["like", "dislike", "unrated"], {
+    required_error: "You need to pick a rating.",
+  }),
+})
 
 export default function BookSettings() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      status: "toRead",
+      rating: "unrated",
+    },
+  })
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
+    setIsDrawerOpen(false)
+  }
+
   return (
     <CardFooter className="flex justify-between">
-      <Drawer>
+      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <DrawerTrigger asChild>
           <Button>
             <Settings /> Edit
           </Button>
         </DrawerTrigger>
-        <Button>
-          <MessageSquareMore /> Leave a comment
-        </Button>
         <DrawerContent>
           <div className="mx-auto w-full max-w-sm">
             <DrawerHeader>
@@ -45,79 +67,98 @@ export default function BookSettings() {
                 Set your daily activity goal.
               </DrawerDescription>
             </DrawerHeader>
-            <div className="p-4 pb-0">
-              <div className="flex flex-col items-center justify-center space-x-2 gap-4">
-                <h3>Status</h3>
-                <RadioGroup defaultValue="toRead">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="readed" id="readed" />
-                    <Label htmlFor="readed" className="flex items-center gap-2">
-                      Readed <BookCheck />
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="reading" id="reading" />
-                    <Label
-                      htmlFor="reading"
-                      className="flex items-center gap-2"
-                    >
-                      Reading <BookOpen />
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="toRead" id="toRead" />
-                    <Label htmlFor="toRead" className="flex items-center gap-2">
-                      In library <Library />
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="dropped" id="dropped" />
-                    <Label
-                      htmlFor="dropped"
-                      className="flex items-center gap-2"
-                    >
-                      Dropped <BookX />
-                    </Label>
-                  </div>
-                </RadioGroup>
-                <h3>Rate the book</h3>
-                <RadioGroup defaultValue="unrated">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="like" id="like" />
-                    <Label htmlFor="like" className="flex items-center gap-2">
-                      Like <Heart />
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="dislike" id="dislike" />
-                    <Label
-                      htmlFor="dislike"
-                      className="flex items-center gap-2"
-                    >
-                      Dislike <HeartOff />
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="unrated" id="unrated" />
-                    <Label
-                      htmlFor="unrated"
-                      className="flex items-center gap-2"
-                    >
-                      Unrated <Library />
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
-            </div>
-            <DrawerFooter>
-              <Button>Save</Button>
-              <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="readed" />
+                            </FormControl>
+                            <FormLabel>Readed</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="reading" />
+                            </FormControl>
+                            <FormLabel>Reading</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="toRead" />
+                            </FormControl>
+                            <FormLabel>In library</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="dropped" />
+                            </FormControl>
+                            <FormLabel>Dropped</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="rating"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Rate the book</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="like" />
+                            </FormControl>
+                            <FormLabel>Like</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="dislike" />
+                            </FormControl>
+                            <FormLabel>Dislike</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="unrated" />
+                            </FormControl>
+                            <FormLabel>Unrated</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <DrawerFooter>
+                  <Button type="submit">Save</Button>
+                  <DrawerClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </form>
+            </Form>
           </div>
         </DrawerContent>
       </Drawer>
+      <Button>
+        <MessageSquareMore /> Leave a comment
+      </Button>
     </CardFooter>
   )
 }
