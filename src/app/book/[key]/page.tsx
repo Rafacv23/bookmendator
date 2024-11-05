@@ -7,6 +7,7 @@ import {
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/server"
 import { getBook } from "./services/getBook"
+import isBookInUserLibrary from "./services/isBookInUserLibrary"
 
 export default async function BookPage({
   params,
@@ -34,6 +35,8 @@ export default async function BookPage({
     rating,
   } = bookData
 
+  const isBookInLibrary = await isBookInUserLibrary(key, user.id)
+
   return (
     <Container>
       <div className="sm:flex gap-4">
@@ -53,7 +56,11 @@ export default async function BookPage({
               Login to add this book to your library
             </LoginLink>
           ) : (
-            <BookButtons bookId={key} userId={user.id} />
+            <BookButtons
+              isBookInLibrary={isBookInLibrary}
+              bookId={key}
+              userId={user.id}
+            />
           )}
         </div>
       </div>
