@@ -1,8 +1,12 @@
 import BookButtons from "@/components/BookButtons"
 import Container from "@/components/Container"
 import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
 import { SITE_URL } from "@/site/config"
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import {
+  getKindeServerSession,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/server"
 import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
@@ -91,7 +95,13 @@ export default async function BookPage({
           <h1 className="text-4xl font-bold">{title}</h1>
           <h2 className="text-xl font-semibold">{bookAuthor}</h2>
           <p>User reviews: {rating}</p>
-          <BookButtons bookId={key} userId={user.id} />
+          {!user ? (
+            <LoginLink className={buttonVariants({ variant: "default" })}>
+              Login to add this book to your library
+            </LoginLink>
+          ) : (
+            <BookButtons bookId={key} userId={user.id} />
+          )}
         </div>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
