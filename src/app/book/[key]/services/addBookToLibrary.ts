@@ -6,6 +6,7 @@ import {
   PrismaClient,
   Visibility,
 } from "@prisma/client"
+import { revalidatePath } from "next/cache"
 
 interface Props {
   userId: string
@@ -48,11 +49,13 @@ export default async function addBookToLibrary({
         bookReview,
       },
     })
+    revalidatePath("/library")
 
     console.log("Book added to library:", updatedLibrary)
     return updatedLibrary
   } catch (error) {
-    console.error("Error adding book to library:", error)
+    console.error(error)
+    throw new Error("Error adding book to library:")
   } finally {
     await prisma.$disconnect()
   }
