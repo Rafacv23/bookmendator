@@ -1,12 +1,5 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import BookCard from "@/components/BookCard"
 import { Book } from "@/types/types"
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
-import Link from "next/link"
 
 interface BookApiResponse {
   author_name: string[]
@@ -50,24 +43,12 @@ export default async function SearchPage({
         <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {books.map((book) => (
             <li key={book.key} className="flex items-center gap-4">
-              <Link href={`/book/${book.key}`}>
-                <Card className="hover:shadow-lg transition-all hover:scale-105 hover:cursor-pointer max-w-sm w-96 h-40">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    {book.cover && (
-                      <img
-                        loading="lazy"
-                        src={book.cover}
-                        alt={`${book.title} cover`}
-                        className="w-20 h-28 rounded object-cover aspect-auto"
-                      />
-                    )}
-                    <div className="space-y-2">
-                      <CardTitle>{book.title}</CardTitle>
-                      <CardDescription>{book.author}</CardDescription>
-                    </div>
-                  </CardHeader>
-                </Card>
-              </Link>
+              <BookCard
+                id={book.key}
+                title={book.title}
+                author={book.author}
+                cover={book.cover}
+              />
             </li>
           ))}
         </ul>
