@@ -82,7 +82,7 @@ export default function BookSettingsForm({
           <DrawerHeader>
             <DrawerTitle>Edit your book</DrawerTitle>
             <DrawerDescription>
-              Set your preferences about this bookId.
+              Set your preferences about this book.
             </DrawerDescription>
           </DrawerHeader>
           <Form {...form}>
