@@ -35,8 +35,7 @@ export default async function addBookToLibrary({
     })
 
     if (existingEntry) {
-      console.log("Book already exists in the library.")
-      return existingEntry
+      return { success: true, message: "This book is already in the library." }
     }
 
     // Add the book to the library
@@ -52,10 +51,13 @@ export default async function addBookToLibrary({
     revalidatePath("/library")
 
     console.log("Book added to library:", updatedLibrary)
-    return updatedLibrary
+    return { success: true, message: "Book added to library." }
   } catch (error) {
-    console.error(error)
-    throw new Error("Error adding book to library:")
+    console.error("Error adding book:", error)
+    return {
+      success: false,
+      message: "Failed to adding the book to the library.",
+    }
   } finally {
     await prisma.$disconnect()
   }
