@@ -2,14 +2,11 @@ import BookButtons from "@/components/BookButtons"
 import Container from "@/components/Container"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
-import { SITE_URL } from "@/site/config"
 import {
   getKindeServerSession,
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/server"
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
+import { getBook } from "./services/getBook"
 
 export default async function BookPage({
   params,
@@ -20,56 +17,12 @@ export default async function BookPage({
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
-  // Check if the book exists in the database
-  const res = await fetch(`${SITE_URL}/api/book/${key}`)
   let bookData
-
-  if (res.status === 404) {
-    // Fetch the book details from OpenLibrary API
-    const url = `https://openlibrary.org/books/${key}.json`
-    const response = await fetch(url)
-    if (!response.ok) {
-      return <div>Error fetching book details.</div> // Error handling
-    }
-
-    const book = await response.json()
-
-    // Handle cases where the author data might not exist
-    const authorUrl = book.authors?.[0]?.author?.key
-      ? `https://openlibrary.org${book.authors[0].author.key}.json`
-      : null
-
-    let author
-    if (authorUrl) {
-      const authorResponse = await fetch(authorUrl)
-      if (authorResponse.ok) {
-        author = await authorResponse.json()
-      } else {
-        author = { name: "Unknown Author" } // Fallback in case of author fetch failure
-      }
-    } else {
-      author = { name: "Unknown Author" } // Fallback if author key is not available
-    }
-
-    const description = book.description?.value || "No description available."
-    const imageUrl = book.covers?.[0]
-      ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
-      : `https://placehold.co/180x280?text=${encodeURIComponent(book.title)}`
-
-    // Add the book to the database
-    bookData = await prisma.book.create({
-      data: {
-        id: key,
-        title: book.title,
-        author: author.name,
-        description: description,
-        cover: imageUrl,
-        subjects: book.subjects || [],
-        rating: "unrated",
-      },
-    })
-  } else {
-    bookData = await res.json()
+  try {
+    bookData = await getBook(key)
+  } catch (error) {
+    console.error(error)
+    return <div>Error fetching book details.</div>
   }
 
   const {
