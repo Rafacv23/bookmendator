@@ -48,6 +48,7 @@ export default async function SearchPage({
               title={book.title}
               author={book.author}
               cover={book.cover}
+              isLibrary={false}
             />
           </li>
         ))}

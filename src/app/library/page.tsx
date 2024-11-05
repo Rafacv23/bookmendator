@@ -29,6 +29,7 @@ export default async function Page() {
               title={book.title}
               author={book.author}
               cover={book.cover}
+              isLibrary={true}
             />
           </li>
         ))}
