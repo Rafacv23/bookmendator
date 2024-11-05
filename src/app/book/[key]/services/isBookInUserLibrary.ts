@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/site/config"
+import { Library } from "@prisma/client"
 
 export default async function isBookInUserLibrary(
   bookId: string,
@@ -6,7 +7,7 @@ export default async function isBookInUserLibrary(
 ) {
   // Check if the book is already in the library
   const res = await fetch(`${SITE_URL}/api/library/${userId}`)
-  const library = await res.json()
+  const library: Library[] = await res.json()
 
-  return library.some((entry: LibraryEntry) => entry.bookId === bookId)
+  return library.some((entry) => entry.bookId === bookId)
 }
