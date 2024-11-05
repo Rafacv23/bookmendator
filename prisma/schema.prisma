@@ -48,7 +48,7 @@ model User {
   theme     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  library   Library? // Cada usuario puede tener solo una biblioteca
+  library   Library[] // Cada usuario puede tener muchos libros en su biblioteca
   reviews   Review[]
   comments  Comment[]
   chats     Chat[]
@@ -57,7 +57,7 @@ model User {
 model Library {
   id          Int       @id @default(autoincrement())
   user        User      @relation(fields: [userId], references: [id])
-  userId      String    @unique
+  userId      String
   visibility  Visibility    // public | private
   book        Book      @relation(fields: [bookId], references: [id])
   bookId      String
