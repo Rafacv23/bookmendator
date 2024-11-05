@@ -43,7 +43,7 @@ export default function AskForm() {
             <FormItem>
               <FormLabel>Question</FormLabel>
               <FormControl>
-                <Textarea placeholder="Ask something..." {...field} />
+                <Textarea placeholder="Ask something..." {...field} autoFocus />
               </FormControl>
               <FormDescription>
                 The AI will try to answer your question as best as possible.

@@ -42,10 +42,15 @@ export default function SearchForm() {
             <FormItem>
               <FormLabel>Search</FormLabel>
               <FormControl>
-                <Textarea placeholder="Search something..." {...field} />
+                <Textarea
+                  placeholder="Search something..."
+                  {...field}
+                  autoFocus
+                />
               </FormControl>
               <FormDescription>
-                We will search in our database for the book you want.
+                We will search in our database for the book or author that you
+                want.
               </FormDescription>
               <FormMessage />
             </FormItem>
