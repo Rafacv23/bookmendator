@@ -1,4 +1,5 @@
 import BookButtons from "@/components/BookButtons"
+import Container from "@/components/Container"
 import { Badge } from "@/components/ui/badge"
 import { SITE_URL } from "@/site/config"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
@@ -77,44 +78,42 @@ export default async function BookPage({
   } = bookData
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="sm:flex gap-4">
-          {cover && (
-            <img
-              src={cover}
-              alt={title}
-              className="mb-4 rounded shadow-xl aspect-auto"
-            />
-          )}
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold">{title}</h1>
-            <h2 className="text-xl font-semibold">{bookAuthor}</h2>
-            <p>User reviews: {rating}</p>
-            <BookButtons bookId={key} userId={user.id} />
-          </div>
+    <Container>
+      <div className="sm:flex gap-4">
+        {cover && (
+          <img
+            src={cover}
+            alt={title}
+            className="mb-4 rounded shadow-xl aspect-auto"
+          />
+        )}
+        <div className="flex flex-col gap-2">
+          <h1 className="text-4xl font-bold">{title}</h1>
+          <h2 className="text-xl font-semibold">{bookAuthor}</h2>
+          <p>User reviews: {rating}</p>
+          <BookButtons bookId={key} userId={user.id} />
         </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <h3 className="text-lg font-semibold">Description</h3>
-            <p>{description}</p>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">Subjects</h3>
-            <ul className="flex flex-wrap gap-2">
-              {subjects?.slice(0, 5).map((subject: string) => (
-                <li key={subject}>
-                  <Badge>{subject}</Badge>
-                </li>
-              ))}
-            </ul>
-          </div>
+      </div>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <h3 className="text-lg font-semibold">Description</h3>
+          <p>{description}</p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Comments</h3>
-          Aqui irán los comentarios de los usuarios
+          <h3 className="text-lg font-semibold">Subjects</h3>
+          <ul className="flex flex-wrap gap-2">
+            {subjects?.slice(0, 5).map((subject: string) => (
+              <li key={subject}>
+                <Badge>{subject}</Badge>
+              </li>
+            ))}
+          </ul>
         </div>
-      </main>
-    </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold">Comments</h3>
+        Aqui irán los comentarios de los usuarios
+      </div>
+    </Container>
   )
 }
