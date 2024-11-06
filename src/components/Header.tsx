@@ -95,7 +95,6 @@ export default async function Header() {
             <LogIn />
             Log in
           </LoginLink>
-          <ThemeBtn />
         </>
       )}
     </header>
