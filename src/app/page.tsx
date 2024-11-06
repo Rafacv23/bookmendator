@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer"
 import Forms from "@/components/Forms"
 
 export default function Home() {
@@ -7,7 +6,6 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Forms />
       </main>
-      <Footer />
     </div>
   )
 }
