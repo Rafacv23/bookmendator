@@ -29,7 +29,7 @@ export default async function Header() {
   const user = await getUser()
 
   return (
-    <header className="row-start-1 flex gap-6 flex-wrap items-center justify-center">
+    <header className="row-start-1 flex gap-6 flex-wrap items-center justify-center p-4 fixed z-50 mx-auto w-full backdrop-blur-md bg-card/50 rounded-b-lg">
       {user ? (
         <>
           <Button>
