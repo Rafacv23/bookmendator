@@ -1,10 +1,11 @@
 "use client"
 
-import { Bookmark, BookmarkX, BotMessageSquare, Share2 } from "lucide-react"
+import { Bookmark, BookmarkX, BotMessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import addBookToLibrary from "@/app/book/[key]/services/addBookToLibrary"
 import { useState } from "react"
 import deleteBookFromLibrary from "@/app/book/[key]/services/deleteBookFromLibrary"
+import ShareBtn from "./ShareBtn"
 
 interface BookButtonsProps {
   bookId: string
@@ -58,9 +59,7 @@ export default function BookButtons({
           <Bookmark />
         </Button>
       )}
-      <Button>
-        <Share2 />
-      </Button>
+      <ShareBtn />
     </div>
   )
 }
