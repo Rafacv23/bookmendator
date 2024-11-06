@@ -8,6 +8,8 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/server"
 import { getBook } from "./services/getBook"
 import isBookInUserLibrary from "./services/isBookInUserLibrary"
+import { SITE_URL } from "@/site/config"
+import { Comment } from "@prisma/client"
 
 export default async function BookPage({
   params,
@@ -36,6 +38,8 @@ export default async function BookPage({
   } = bookData
 
   const isBookInLibrary = await isBookInUserLibrary(key, user.id)
+  const res = await fetch(`${SITE_URL}/api/book/${key}/comments`)
+  const comments = await res.json()
 
   return (
     <Container>
@@ -82,7 +86,15 @@ export default async function BookPage({
       </div>
       <div>
         <h3 className="text-lg font-semibold">Comments</h3>
-        Aqui irán los comentarios de los usuarios
+        {comments.length > 0 ? (
+          <ul>
+            {comments.map((comment: Comment) => (
+              <li key={comment.content}>{comment.content}</li>
+            ))}
+          </ul>
+        ) : (
+          `No comments yet.`
+        )}
       </div>
     </Container>
   )
