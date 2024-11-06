@@ -1,10 +1,9 @@
-import { MessageSquareMore } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { CardFooter } from "@/components/ui/card"
 import { BookReview, BookStatus } from "@prisma/client"
-import { Badge } from "./ui/badge"
-import BookSettingsForm from "./BookSettingsForm"
+import { Badge } from "@/components/ui/badge"
+import BookSettingsForm from "@/components/BookSettingsForm"
 import { formatString } from "@/lib/utils"
+import CommentDrawer from "@/components/CommentDrawer"
 
 interface BookSettingsProps {
   bookId: string
@@ -33,9 +32,7 @@ export default function BookSettings({
           bookStatus={bookStatus}
         />
       </div>
-      <Button>
-        <MessageSquareMore /> Leave a comment
-      </Button>
+      <CommentDrawer />
     </CardFooter>
   )
 }
