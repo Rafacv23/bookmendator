@@ -39,7 +39,7 @@ export default async function Header() {
   const user = await getUser()
 
   return (
-    <header className="row-start-1 flex gap-6 flex-wrap items-center justify-between max-w-4xl left-0 right-0 p-4 fixed z-50 mx-auto w-full backdrop-blur-md bg-card/50 rounded-b-lg">
+    <header className="row-start-1 flex gap-6 flex-wrap items-center justify-between p-4 fixed z-50 mx-0 w-full backdrop-blur-md bg-card/50 rounded-b-lg">
       {user ? (
         <>
           <Button variant={"outline"}>
