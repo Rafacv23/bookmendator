@@ -17,6 +17,7 @@ export interface BookCardProps {
   libraryId?: number
   bookStatus?: BookStatus
   bookReview?: BookReview
+  userId: string
 }
 
 export default function BookCard({
@@ -28,6 +29,7 @@ export default function BookCard({
   libraryId,
   bookStatus,
   bookReview,
+  userId,
 }: BookCardProps) {
   return (
     <Card className="hover:shadow-lg transition-all hover:scale-105 hover:cursor-pointer max-w-sm w-96 h-auto">
@@ -53,6 +55,7 @@ export default function BookCard({
           libraryId={libraryId}
           bookReview={bookReview}
           bookStatus={bookStatus}
+          userId={userId}
         />
       ) : null}
     </Card>

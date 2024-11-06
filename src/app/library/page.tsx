@@ -42,6 +42,7 @@ export default async function Page() {
               libraryId={book.libraryId}
               bookStatus={book.bookStatus}
               bookReview={book.bookReview}
+              userId={user.id}
             />
           </li>
         ))}

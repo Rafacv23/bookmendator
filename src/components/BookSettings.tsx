@@ -10,6 +10,7 @@ interface BookSettingsProps {
   libraryId?: number
   bookStatus?: BookStatus
   bookReview?: BookReview
+  userId: string
 }
 
 export default function BookSettings({
@@ -17,6 +18,7 @@ export default function BookSettings({
   libraryId,
   bookReview,
   bookStatus,
+  userId,
 }: BookSettingsProps) {
   return (
     <CardFooter className="grid gap-4">
@@ -32,7 +34,7 @@ export default function BookSettings({
           bookStatus={bookStatus}
         />
       </div>
-      <CommentDrawer />
+      <CommentDrawer bookId={bookId} userId={userId} />
     </CardFooter>
   )
 }

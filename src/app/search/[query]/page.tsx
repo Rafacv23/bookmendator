@@ -49,6 +49,7 @@ export default async function SearchPage({
               author={book.author}
               cover={book.cover}
               isLibrary={false}
+              userId={""}
             />
           </li>
         ))}
