@@ -44,12 +44,13 @@ export default async function Header() {
         <>
           <Button variant={"outline"}>
             <MessageSquare />
-            Chats
+            <span className="hidden sm:block">Chats</span>
           </Button>
           <Dialog>
             <DialogTrigger asChild>
               <Button>
-                <Search /> Search
+                <Search />
+                Ask | Search
               </Button>
             </DialogTrigger>
             <DialogContent>
