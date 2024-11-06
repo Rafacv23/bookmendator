@@ -43,7 +43,7 @@ export default async function BookPage({
 
   return (
     <Container>
-      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-center">
+      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-center max-w-4xl">
         {cover && (
           <img
             src={cover}
@@ -55,6 +55,16 @@ export default async function BookPage({
           <h1 className="text-4xl font-bold">{title}</h1>
           <h2 className="text-xl font-semibold">{bookAuthor}</h2>
           <p>User reviews: {rating}</p>
+          <div className="xl:mb-8 mb-4">
+            <h3 className="text-lg font-semibold">Subjects</h3>
+            <ul className="flex flex-wrap gap-2">
+              {subjects?.slice(0, 5).map((subject: string) => (
+                <li key={subject}>
+                  <Badge variant={"outline"}>{subject}</Badge>
+                </li>
+              ))}
+            </ul>
+          </div>
           {!user ? (
             <LoginLink className={buttonVariants({ variant: "default" })}>
               Login to add this book to your library
@@ -68,33 +78,25 @@ export default async function BookPage({
           )}
         </div>
       </div>
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div>
+      <div className="grid gap-4">
+        <div className="max-w-4xl bg-card p-8 rounded-lg">
           <h3 className="text-lg font-semibold">Description</h3>
           <p>{description}</p>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold">Subjects</h3>
-          <ul className="flex flex-wrap gap-2">
-            {subjects?.slice(0, 5).map((subject: string) => (
-              <li key={subject}>
-                <Badge>{subject}</Badge>
-              </li>
-            ))}
-          </ul>
+        <div className="max-w-4xl bg-card p-8 rounded-lg">
+          <h3 className="text-lg font-semibold">Comments</h3>
+          {comments.length > 0 ? (
+            <ul>
+              {comments.map((comment: Comment) => (
+                <li key={comment.content} className="list-disc list-inside">
+                  {comment.content}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            `No comments yet.`
+          )}
         </div>
-      </div>
-      <div>
-        <h3 className="text-lg font-semibold">Comments</h3>
-        {comments.length > 0 ? (
-          <ul>
-            {comments.map((comment: Comment) => (
-              <li key={comment.content}>{comment.content}</li>
-            ))}
-          </ul>
-        ) : (
-          `No comments yet.`
-        )}
       </div>
     </Container>
   )
