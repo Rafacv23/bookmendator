@@ -60,7 +60,6 @@ export default function BookSettingsForm({
   })
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data)
     setIsDrawerOpen(false)
     editBookStatus({
       bookId,
