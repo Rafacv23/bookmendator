@@ -49,7 +49,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   library   Library[] // Cada usuario puede tener muchos libros en su biblioteca
-  reviews   Review[]
+  libraryVisibility Visibility @default(private)
   comments  Comment[]
   chats     Chat[]
 }
@@ -58,7 +58,6 @@ model Library {
   id          Int       @id @default(autoincrement())
   user        User      @relation(fields: [userId], references: [id])
   userId      String
-  visibility  Visibility    // public | private
   book        Book      @relation(fields: [bookId], references: [id])
   bookId      String
   bookReview  BookReview?    // like, dislike, unrated
@@ -80,7 +79,6 @@ model Book {
   createdAt      DateTime @default(now())
   libraries      Library[]
   comments       Comment[]
-  reviews        Review[]
 }
 
 model Comment {
@@ -92,20 +90,6 @@ model Comment {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Review {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
-  book        Book     @relation(fields: [bookId], references: [id])
-  bookId      String
-  rating      Boolean  // true: recomienda, false: no recomienda
-  title       String? // Opcional
-  body        String? // Opcional
-  visibility  Visibility   // public | private
-  createdAt   DateTime @default(now())
-  modifiedAt  DateTime @updatedAt
 }
 
 model Chat {
