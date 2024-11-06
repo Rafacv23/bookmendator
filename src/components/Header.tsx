@@ -9,6 +9,7 @@ import {
   Library,
   LogIn,
   LogOut,
+  Menu,
   MessageSquare,
   Search,
   UserPlus,
@@ -23,6 +24,15 @@ import {
 } from "@/components/ui/dialog"
 import Forms from "./Forms"
 import Link from "next/link"
+import { ThemeBtn } from "@/components/ThemeBtn"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default async function Header() {
   const { getUser } = getKindeServerSession()
@@ -59,10 +69,30 @@ export default async function Header() {
             <Library />
             Library
           </Link>
-          <LogoutLink className={buttonVariants({ variant: "destructive" })}>
-            <LogOut />
-            Logout
-          </LogoutLink>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className={buttonVariants({ variant: "outline" })}
+            >
+              <Menu />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href="/library" className="flex items-center gap-2">
+                  <Library className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+                  Library
+                </Link>
+              </DropdownMenuItem>
+              <ThemeBtn />
+              <DropdownMenuItem>
+                <LogoutLink className="flex items-center gap-2">
+                  <LogOut className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+                  Logout
+                </LogoutLink>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </>
       ) : (
         <>
@@ -74,6 +104,7 @@ export default async function Header() {
             <LogIn />
             Log in
           </LoginLink>
+          <ThemeBtn />
         </>
       )}
     </header>
