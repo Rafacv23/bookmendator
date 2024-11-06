@@ -37,7 +37,11 @@ export default async function BookPage({
     rating,
   } = bookData
 
-  const isBookInLibrary = await isBookInUserLibrary(key, user.id)
+  let isBookInLibrary = false
+
+  if (user) {
+    isBookInLibrary = await isBookInUserLibrary(key, user.id)
+  }
   const res = await fetch(`${SITE_URL}/api/book/${key}/comments`)
   const comments = await res.json()
 
