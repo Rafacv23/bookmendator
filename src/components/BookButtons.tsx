@@ -11,19 +11,25 @@ interface BookButtonsProps {
   bookId: string
   userId: string
   isBookInLibrary: boolean
+  libraryId: { libraryId: number }
 }
 
 export default function BookButtons({
   bookId,
   userId,
   isBookInLibrary,
+  libraryId,
 }: BookButtonsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleAddBookToLibrary = async () => {
     setIsLoading(true)
     try {
-      await addBookToLibrary({ bookId: bookId, userId: userId })
+      await addBookToLibrary({
+        bookId: bookId,
+        userId: userId,
+        libraryId: libraryId.libraryId,
+      })
     } catch (error) {
       console.error(error)
     } finally {
