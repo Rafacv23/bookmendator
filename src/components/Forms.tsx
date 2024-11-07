@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import AskForm from "@/components/AskForm"
 import SearchForm from "@/components/SearchForm"
 
-export default function Forms() {
+export default function Forms({ dialog }: { dialog: boolean }) {
   return (
     <Tabs defaultValue="ai" className="w-[400px]">
       <TabsList>
@@ -10,10 +10,10 @@ export default function Forms() {
         <TabsTrigger value="search">Search</TabsTrigger>
       </TabsList>
       <TabsContent value="ai">
-        <AskForm />
+        <AskForm dialog={dialog} />
       </TabsContent>
       <TabsContent value="search">
-        <SearchForm />
+        <SearchForm dialog={dialog} />
       </TabsContent>
     </Tabs>
   )

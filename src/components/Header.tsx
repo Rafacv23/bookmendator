@@ -57,7 +57,7 @@ export default async function Header() {
                   Anyone who has this link will be able to view this.
                 </DialogDescription>
               </DialogHeader>
-              <Forms />
+              <Forms dialog={true} />
             </DialogContent>
           </Dialog>
           <DropdownMenu>

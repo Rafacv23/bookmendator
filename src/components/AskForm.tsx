@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { DialogClose } from "@/components/ui/dialog"
 
@@ -29,7 +29,7 @@ function onSubmit(values: FormSchemaType) {
   console.log(values)
 }
 
-export default function AskForm() {
+export default function AskForm({ dialog }: { dialog: boolean }) {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   })
@@ -53,13 +53,17 @@ export default function AskForm() {
             </FormItem>
           )}
         />
-        <DialogClose
-          aria-label="close"
-          type="submit"
-          className={buttonVariants({ variant: "default" })}
-        >
-          Ask
-        </DialogClose>
+        {dialog ? (
+          <DialogClose
+            type="submit"
+            aria-label="close"
+            className={buttonVariants({ variant: "default" })}
+          >
+            Search
+          </DialogClose>
+        ) : (
+          <Button type="submit">Ask</Button>
+        )}
       </form>
     </Form>
   )

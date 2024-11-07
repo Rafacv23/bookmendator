@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { redirect } from "next/navigation"
 import { DialogClose } from "./ui/dialog"
@@ -28,7 +28,7 @@ function onSubmit(values: FormSchemaType) {
   redirect(`/search/${values.query}`)
 }
 
-export default function SearchForm() {
+export default function SearchForm({ dialog }: { dialog: boolean }) {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   })
@@ -57,13 +57,17 @@ export default function SearchForm() {
             </FormItem>
           )}
         />
-        <DialogClose
-          type="submit"
-          aria-label="close"
-          className={buttonVariants({ variant: "default" })}
-        >
-          Search
-        </DialogClose>
+        {dialog ? (
+          <DialogClose
+            type="submit"
+            aria-label="close"
+            className={buttonVariants({ variant: "default" })}
+          >
+            Search
+          </DialogClose>
+        ) : (
+          <Button type="submit">Search</Button>
+        )}
       </form>
     </Form>
   )
