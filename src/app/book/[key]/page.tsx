@@ -39,9 +39,12 @@ export default async function BookPage({
   } = bookData
 
   let isBookInLibrary = false
+  let libraryId
 
   if (user) {
     isBookInLibrary = await isBookInUserLibrary(key, user.id)
+    const libraryResponse = await fetch(`${SITE_URL}/api/${user.id}/libraryId`)
+    libraryId = await libraryResponse.json()
   }
   const res = await fetch(`${SITE_URL}/api/book/${key}/comments`)
   const comments = await res.json()
@@ -79,6 +82,7 @@ export default async function BookPage({
               isBookInLibrary={isBookInLibrary}
               bookId={key}
               userId={user.id}
+              libraryId={libraryId}
             />
           )}
         </div>
