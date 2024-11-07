@@ -25,13 +25,22 @@ export function ThemeBtn() {
       </DropdownMenuSubTrigger>
       <DropdownMenuPortal>
         <DropdownMenuSubContent>
-          <DropdownMenuItem onClick={() => setTheme("light")}>
+          <DropdownMenuItem
+            onClick={() => setTheme("light")}
+            className="hover:cursor-pointer"
+          >
             Light
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
+          <DropdownMenuItem
+            onClick={() => setTheme("dark")}
+            className="hover:cursor-pointer"
+          >
             Dark
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
+          <DropdownMenuItem
+            onClick={() => setTheme("system")}
+            className="hover:cursor-pointer"
+          >
             System
           </DropdownMenuItem>
         </DropdownMenuSubContent>
