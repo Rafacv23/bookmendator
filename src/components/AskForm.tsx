@@ -12,8 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { DialogClose } from "@/components/ui/dialog"
 
 const formSchema = z.object({
   question: z.string().min(1, {
@@ -52,7 +53,13 @@ export default function AskForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Ask</Button>
+        <DialogClose
+          aria-label="close"
+          type="submit"
+          className={buttonVariants({ variant: "default" })}
+        >
+          Ask
+        </DialogClose>
       </form>
     </Form>
   )

@@ -12,9 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { redirect } from "next/navigation"
+import { DialogClose } from "./ui/dialog"
 
 const formSchema = z.object({
   query: z.string().min(1, {
@@ -56,7 +57,13 @@ export default function SearchForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Search</Button>
+        <DialogClose
+          type="submit"
+          aria-label="close"
+          className={buttonVariants({ variant: "default" })}
+        >
+          Search
+        </DialogClose>
       </form>
     </Form>
   )
