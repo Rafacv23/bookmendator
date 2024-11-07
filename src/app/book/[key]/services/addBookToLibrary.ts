@@ -1,18 +1,13 @@
 "use server"
 
-import {
-  BookReview,
-  BookStatus,
-  PrismaClient,
-  Visibility,
-} from "@prisma/client"
+import { BookReview, BookStatus, PrismaClient } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 interface Props {
   userId: string
   bookId: string
+  libraryId: number
   bookStatus?: BookStatus
-  visibility?: Visibility
   bookReview?: BookReview
 }
 
@@ -21,8 +16,8 @@ const prisma = new PrismaClient()
 export default async function addBookToLibrary({
   userId,
   bookId,
+  libraryId,
   bookStatus = BookStatus.toRead,
-  visibility = Visibility.private,
   bookReview = BookReview.unrated,
 }: Props) {
   try {
@@ -43,9 +38,9 @@ export default async function addBookToLibrary({
       data: {
         userId,
         bookId,
-        visibility,
         bookStatus,
         bookReview,
+        libraryId,
       },
     })
     revalidatePath("/library")
