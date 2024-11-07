@@ -9,7 +9,8 @@ import {
 import { getBook } from "./services/getBook"
 import isBookInUserLibrary from "./services/isBookInUserLibrary"
 import { SITE_URL } from "@/site/config"
-import { Comment } from "@prisma/client"
+import { Comments } from "@/types/types"
+import { format } from "date-fns"
 
 export default async function BookPage({
   params,
@@ -90,10 +91,20 @@ export default async function BookPage({
         <div className="max-w-4xl bg-card p-8 rounded-lg">
           <h3 className="text-lg font-semibold">Comments</h3>
           {comments.length > 0 ? (
-            <ul>
-              {comments.map((comment: Comment) => (
-                <li key={comment.content} className="list-disc list-inside">
-                  {comment.content}
+            <ul className="mt-4 flex flex-col gap-8">
+              {comments.map((comment: Comments) => (
+                <li key={comment.content}>
+                  <h5>
+                    {comment.user.name}{" "}
+                    <small className="text-primary/70">
+                      at{" "}
+                      {format(
+                        new Date(comment.updatedAt),
+                        "MMMM dd, yyyy 'at' HH:mm"
+                      )}
+                    </small>
+                  </h5>
+                  <p>{comment.content}</p>
                 </li>
               ))}
             </ul>
