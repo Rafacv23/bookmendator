@@ -49,6 +49,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   library   Library[] // Cada usuario puede tener muchos libros en su biblioteca
+  libraryId Int @unique @default(autoincrement())
   libraryVisibility Visibility @default(private)
   comments  Comment[]
   chats     Chat[]
@@ -60,6 +61,7 @@ model Library {
   userId      String
   book        Book      @relation(fields: [bookId], references: [id])
   bookId      String
+  libraryId   Int?
   bookReview  BookReview?    // like, dislike, unrated
   bookStatus  BookStatus    // read, to read, dropped, reading
   createdAt   DateTime  @default(now())
