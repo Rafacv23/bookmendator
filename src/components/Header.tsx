@@ -71,14 +71,14 @@ export default async function Header() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link href="/library" className="flex items-center gap-2 ">
-                  <Library className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+                  <Library className="h-[1.2rem] w-[1.2rem]" />
                   Library
                 </Link>
               </DropdownMenuItem>
               <ThemeBtn />
               <DropdownMenuItem>
                 <LogoutLink className="flex items-center gap-2">
-                  <LogOut className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+                  <LogOut className="h-[1.2rem] w-[1.2rem]" />
                   Logout
                 </LogoutLink>
               </DropdownMenuItem>
