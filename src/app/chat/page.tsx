@@ -9,24 +9,17 @@ import { Textarea } from "@/components/ui/textarea"
 import { SendHorizontal } from "lucide-react"
 import * as webllm from "@mlc-ai/web-llm"
 import { MLCEngine } from "@mlc-ai/web-llm"
-
-interface Report {
-  progress: number
-  timeElapsed: number
-  text: string
-}
-
-interface Message {
-  role: "user" | "assistant"
-  content: string
-}
+import { Message, Report } from "@/types/types"
+import TextareaAutosize from "react-textarea-autosize"
 
 export default function ChatPage() {
   const [engine, setEngine] = useState<MLCEngine | null>(null)
-  const [userMessage, setUserMessage] = useState("")
+  const [userMessage, setUserMessage] = useState(
+    sessionStorage.getItem("question") || ""
+  )
   const [chatMessages, setChatMessages] = useState<Message[]>([])
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [initProgress, setInitProgress] = useState("") // Track initialization progress
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [initProgress, setInitProgress] = useState<string>("")
 
   useEffect(() => {
     const initializeEngine = async () => {
@@ -47,11 +40,12 @@ export default function ChatPage() {
   const handleSendMessage = async () => {
     if (!userMessage || !engine || initProgress) return // Ensure engine is ready
 
-    const newChatMessages = [
+    const newChatMessages: Message[] = [
       ...chatMessages,
       { role: "user", content: userMessage },
     ]
     setChatMessages(newChatMessages)
+    sessionStorage.removeItem("question")
     setUserMessage("")
     setIsGenerating(true)
 
@@ -70,20 +64,23 @@ export default function ChatPage() {
       ],
     }
 
-    const asyncChunkGenerator = await engine.chat.completions.create(request)
+    try {
+      const asyncChunkGenerator = await engine.chat.completions.create(request)
 
-    // Aquí vamos a empezar a mostrar los fragmentos poco a poco
-    let aiMessage = "" // Variable para almacenar el mensaje acumulado
+      let aiMessage = ""
 
-    for await (const chunk of asyncChunkGenerator) {
-      aiMessage += chunk.choices[0]?.delta?.content || "" // Acumulamos el fragmento
-      setChatMessages((prevMessages) => [
-        ...prevMessages.slice(0, -1), // Eliminar el último mensaje del asistente (si lo hay)
-        { role: "assistant", content: aiMessage }, // Agregar el mensaje acumulado
-      ])
+      for await (const chunk of asyncChunkGenerator) {
+        aiMessage += chunk.choices[0]?.delta?.content || ""
+        setChatMessages((prevMessages) => [
+          ...prevMessages.slice(0, -1),
+          { role: "assistant", content: aiMessage }, // Agregar el mensaje del asistente
+        ])
+      }
+    } catch (error) {
+      console.error("Error during chat completion:", error)
+    } finally {
+      setIsGenerating(false)
     }
-
-    setIsGenerating(false)
   }
 
   return (
@@ -102,12 +99,12 @@ export default function ChatPage() {
           </div>
         ))}
         <div className="flex flex-row justify-between items-center gap-4 min-w-96">
-          <Textarea
+          <TextareaAutosize
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
-            placeholder="Type your next question"
-            className="bg-card"
             disabled={isGenerating}
+            placeholder="Type your next question"
+            className="bg-card overflow-hidden resize-none flex min-h-[60px] w-full rounded-md border border-input px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
           />
           <Button
             type="submit"
@@ -119,8 +116,10 @@ export default function ChatPage() {
           </Button>
         </div>
       </div>
-      <small>Model: Llama-3.2</small>
-      <small>{initProgress}</small>
+      <div className="max-w-3xl flex flex-col items-center gap-4 mt-8">
+        <small>Model: Llama-3.2</small>
+        <small>{initProgress}</small>
+      </div>
     </Container>
   )
 }
