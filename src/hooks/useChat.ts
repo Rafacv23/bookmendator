@@ -5,7 +5,9 @@ import { Message, Report } from "@/types/types"
 
 export const useChat = () => {
   const [engine, setEngine] = useState<MLCEngine | null>(null)
-  const [userMessage, setUserMessage] = useState<string>("")
+  const [userMessage, setUserMessage] = useState(
+    sessionStorage.getItem("question") || ""
+  )
   const [chatMessages, setChatMessages] = useState<Message[]>([])
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [initProgress, setInitProgress] = useState<string>("")
@@ -34,6 +36,7 @@ export const useChat = () => {
       { role: "user", content: userMessage },
     ]
     setChatMessages(newChatMessages)
+    sessionStorage.removeItem("question")
     setUserMessage("") // Reset user input
     setIsGenerating(true)
 
