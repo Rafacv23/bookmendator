@@ -15,6 +15,7 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { DialogClose } from "@/components/ui/dialog"
+import { redirect } from "next/navigation"
 
 const formSchema = z.object({
   question: z.string().min(1, {
@@ -24,9 +25,8 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>
 
 function onSubmit(values: FormSchemaType) {
-  // Do something with the form values.
-  // ✅ This will be type-safe and validated.
-  console.log(values)
+  sessionStorage.setItem("question", values.question)
+  redirect(`/chat`)
 }
 
 export default function AskForm({ dialog }: { dialog: boolean }) {
