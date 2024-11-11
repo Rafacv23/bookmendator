@@ -51,7 +51,7 @@ export default function ChatPage() {
           </Button>
         </div>
       </div>
-      <div className="max-w-3xl flex flex-col items-center gap-4 mt-8">
+      <div className="max-w-3xl flex flex-col items-center gap-4 mt-8 text-primary/80">
         <small>Model: Llama-3.2</small>
         <small>{initProgress}</small>
       </div>
