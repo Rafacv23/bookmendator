@@ -19,7 +19,7 @@ export async function GET(
 
     const userLibrary = await prisma.user.findUnique({
       where: { id: userId },
-      select: { libraryId: true },
+      select: { libraryId: true, libraryVisibility: true },
     })
 
     return new Response(JSON.stringify(userLibrary), {
