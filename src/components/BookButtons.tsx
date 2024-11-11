@@ -6,12 +6,15 @@ import addBookToLibrary from "@/app/book/[key]/services/addBookToLibrary"
 import { useState } from "react"
 import deleteBookFromLibrary from "@/app/book/[key]/services/deleteBookFromLibrary"
 import ShareBtn from "./ShareBtn"
+import Link from "next/link"
 
 interface BookButtonsProps {
   bookId: string
   userId: string
   isBookInLibrary: boolean
   libraryId: { libraryId: number }
+  title: string
+  author: string
 }
 
 export default function BookButtons({
@@ -19,6 +22,8 @@ export default function BookButtons({
   userId,
   isBookInLibrary,
   libraryId,
+  title,
+  author,
 }: BookButtonsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -50,10 +55,19 @@ export default function BookButtons({
 
   return (
     <div className="flex gap-2">
-      <Button>
-        Ask AI
-        <BotMessageSquare />
-      </Button>
+      <Link href={`/chat`}>
+        <Button
+          onClick={() =>
+            sessionStorage.setItem(
+              "question",
+              `I want something similar to ${title} by ${author}`
+            )
+          }
+        >
+          Ask AI
+          <BotMessageSquare />
+        </Button>
+      </Link>
       {isBookInLibrary ? (
         <Button disabled={isLoading} onClick={handleRemoveBookFromLibrary}>
           {isLoading ? "Removing..." : "Remove from your library"}

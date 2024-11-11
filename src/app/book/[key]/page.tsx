@@ -83,6 +83,8 @@ export default async function BookPage({
               bookId={key}
               userId={user.id}
               libraryId={libraryId}
+              title={title}
+              author={bookAuthor}
             />
           )}
         </div>
