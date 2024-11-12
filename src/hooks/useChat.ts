@@ -19,7 +19,7 @@ interface BooksData {
 }
 
 export const useChat = () => {
-  const { user } = useKindeBrowserClient()
+  const { user } = useKindeBrowserClient() //check if user is logged to take his library for better recommendations
 
   const [engine, setEngine] = useState<MLCEngine | null>(null)
   const [userMessage, setUserMessage] = useState(
