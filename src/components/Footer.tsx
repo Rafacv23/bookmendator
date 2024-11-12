@@ -13,7 +13,9 @@ export default function Footer() {
   return (
     <footer className="flex flex-col items-center justify-center bg-card text-primary-content p-10">
       <nav className="flex flex-col items-center gap-4 mb-4">
-        <h4 className="font-bold">{SITE_NAME}</h4>
+        <h4 className="font-bold">
+          <Link href={"/"}>{SITE_NAME}</Link>
+        </h4>
         <div className="grid grid-flow-col gap-4">
           <Link
             href={GITHUB_URL}
