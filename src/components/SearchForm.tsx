@@ -71,7 +71,7 @@ export default function SearchForm({ dialog }: { dialog: boolean }) {
                 We will search in our database for the book or author that you
                 want.
               </FormDescription>
-              <FormDescription>
+              <div>
                 <FormLabel>Recent Searchs</FormLabel>
                 <ul className="flex flex-col items-start space-y-2 mt-4">
                   {recentSearches.map((search: string) => (
@@ -88,7 +88,7 @@ export default function SearchForm({ dialog }: { dialog: boolean }) {
                     </li>
                   ))}
                 </ul>
-              </FormDescription>
+              </div>
               <FormMessage />
             </FormItem>
           )}
