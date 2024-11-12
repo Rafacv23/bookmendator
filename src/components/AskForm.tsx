@@ -13,9 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import { DialogClose } from "@/components/ui/dialog"
 import { redirect } from "next/navigation"
+import TextareaAutosize from "react-textarea-autosize"
 
 const formSchema = z.object({
   question: z.string().min(1, {
@@ -44,7 +44,12 @@ export default function AskForm({ dialog }: { dialog: boolean }) {
             <FormItem>
               <FormLabel>Question</FormLabel>
               <FormControl>
-                <Textarea placeholder="Ask something..." {...field} autoFocus />
+                <TextareaAutosize
+                  placeholder="Ask something..."
+                  {...field}
+                  autoFocus
+                  className="bg-card overflow-hidden resize-none flex min-h-[36px] w-full rounded-md border border-input px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                />
               </FormControl>
               <FormDescription>
                 The AI will try to answer your question as best as possible.
