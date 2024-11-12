@@ -1,9 +1,26 @@
 import { useState, useEffect } from "react"
 import * as webllm from "@mlc-ai/web-llm"
 import { MLCEngine } from "@mlc-ai/web-llm"
-import { Message, Report } from "@/types/types"
+import { Book, Message, Report } from "@/types/types"
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
+import { SITE_URL } from "@/site/config"
+import { BookReview, BookStatus } from "@prisma/client"
+
+interface BooksData {
+  book: Book
+  id: number
+  createdAt: Date
+  libraryId: number | null
+  userId: string
+  bookId: string
+  bookReview: BookReview | null
+  bookStatus: BookStatus
+  modifiedAt: Date
+}
 
 export const useChat = () => {
+  const { user } = useKindeBrowserClient()
+
   const [engine, setEngine] = useState<MLCEngine | null>(null)
   const [userMessage, setUserMessage] = useState(
     sessionStorage.getItem("question") || ""
@@ -11,6 +28,7 @@ export const useChat = () => {
   const [chatMessages, setChatMessages] = useState<Message[]>([])
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [initProgress, setInitProgress] = useState<string>("")
+  const [library, setLibrary] = useState<BooksData[]>([])
 
   useEffect(() => {
     const initializeEngine = async () => {
@@ -25,8 +43,21 @@ export const useChat = () => {
       setInitProgress("") // Clear init progress after setup
     }
 
+    const fetchLibrary = async () => {
+      if (user) {
+        try {
+          const res = await fetch(`${SITE_URL}/api/library/${user.id}`)
+          const data = await res.json()
+          setLibrary(data)
+        } catch (error) {
+          console.error("Failed to fetch library:", error)
+        }
+      }
+    }
+
+    fetchLibrary()
     initializeEngine()
-  }, [])
+  }, [user])
 
   const handleSendMessage = async () => {
     if (!userMessage || !engine || initProgress) return // Ensure engine is ready
@@ -45,8 +76,10 @@ export const useChat = () => {
       messages: [
         {
           role: "system",
-          content:
-            "You are a book recommender and should respond with book recommendations, any type of book.",
+          content: `You are a book recommender and should respond with book recommendations, any type of book.
+            Have in mind that you are a user with the following library: ${JSON.stringify(
+              library
+            )}`,
         },
         ...newChatMessages.map((message) => ({
           ...message,
