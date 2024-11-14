@@ -1,6 +1,6 @@
 import BookCard, { BookCardProps } from "@/components/BookCard"
 import Container from "@/components/Container"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { SITE_URL } from "@/site/config"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { BookReview, BookStatus } from "@prisma/client"
