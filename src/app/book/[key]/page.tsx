@@ -26,7 +26,6 @@ export default async function BookPage({
     bookData = await getBook(key)
   } catch (error) {
     console.error(error)
-    return <div>Error fetching book details.</div>
   }
 
   const {
