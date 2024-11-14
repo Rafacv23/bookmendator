@@ -74,11 +74,6 @@ export default function SettingsPanel() {
           icon: <TriangleAlert />,
           onClick: () => handleDeleteUserLibrary(user?.id),
         },
-        {
-          title: "Delete your account",
-          icon: <TriangleAlert />,
-          onClick: () => console.log("deleted account"),
-        },
       ],
     },
   ]
