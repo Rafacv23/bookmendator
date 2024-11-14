@@ -6,6 +6,7 @@ import {
   LoginLink,
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/server"
+import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
 
 export default async function SettingsPage() {
@@ -38,6 +39,10 @@ export default async function SettingsPage() {
       <h1 className="text-xl font-semibold">
         Hi {user.given_name}! This is your settings page
       </h1>
+      <Link href={"/"} className={buttonVariants({ variant: "outline" })}>
+        <ChevronLeft className="h-[1.2rem] w-[1.2rem]" />
+        Back to start
+      </Link>
       <SettingsPanel />
     </Container>
   )
