@@ -3,7 +3,7 @@ import Container from "@/components/Container"
 import { Button } from "@/components/ui/button"
 import { SITE_URL } from "@/site/config"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { BookReview, BookStatus, PrismaClient } from "@prisma/client"
+import { BookReview, BookStatus } from "@prisma/client"
 
 interface LibraryEntry {
   book: BookCardProps
@@ -26,27 +26,12 @@ export default async function Page() {
     bookStatus: entry.bookStatus,
   }))
 
-  const changeLibraryVisibility = async () => {
-    "use server"
-    const res = await fetch(`${SITE_URL}/api/${user.id}/libraryId`)
-    const libraryInfo = await res.json()
-
-    const prisma = new PrismaClient()
-    await prisma.user.update({
-      where: { id: user.id, libraryId: libraryInfo.libraryId },
-      data: {
-        libraryVisibility:
-          libraryInfo.libraryVisibility === "public" ? "private" : "public",
-      },
-    })
-  }
-
   return (
     <Container>
       <h1 className="text-center font-bold text-2xl">
         This is your personal library page
       </h1>
-      <Button variant={"outline"} onClick={changeLibraryVisibility}>
+      <Button variant={"outline"}>
         Change your library visibility {library.libraryVisibility}
       </Button>
       <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
