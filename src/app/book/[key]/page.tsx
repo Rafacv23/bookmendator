@@ -89,7 +89,7 @@ export default async function BookPage({
           )}
         </div>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-4 w-full">
         <div className="max-w-4xl bg-card p-8 rounded-lg">
           <h3 className="text-lg font-semibold">Description</h3>
           <p>{description}</p>
