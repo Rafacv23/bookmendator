@@ -4,7 +4,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { SITE_URL } from "@/site/config"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { BookReview, BookStatus } from "@prisma/client"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Lock } from "lucide-react"
 import Link from "next/link"
 
 interface LibraryEntry {
@@ -35,13 +35,19 @@ export default async function Page() {
       </h1>
       {books.length > 0 ? (
         <>
-          <Link href={"/"} className={buttonVariants({ variant: "outline" })}>
-            <ChevronLeft className="h-[1.2rem] w-[1.2rem]" />
-            Back to start
-          </Link>
-          <Button variant={"outline"}>
-            Change your library visibility {library.libraryVisibility}
-          </Button>
+          <div className="flex gap-4 justify-between">
+            <Link href={"/"} className={buttonVariants({ variant: "outline" })}>
+              <ChevronLeft className="h-[1.2rem] w-[1.2rem]" />
+              Back to start
+            </Link>
+            <Link
+              href={"/settings"}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              <Lock className="h-[1.2rem] w-[1.2rem]" />
+              Change your library visibility {library.libraryVisibility}
+            </Link>
+          </div>
           <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
             {books.map((book: BookCardProps) => (
               <li key={book.id} className="flex items-center gap-4">
