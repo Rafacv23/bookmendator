@@ -1,6 +1,9 @@
 import BookCard from "@/components/BookCard"
 import Container from "@/components/Container"
+import { buttonVariants } from "@/components/ui/button"
 import { Book } from "@/types/types"
+import { ChevronLeft } from "lucide-react"
+import Link from "next/link"
 
 interface BookApiResponse {
   author_name: string[]
@@ -37,9 +40,16 @@ export default async function SearchPage({
 
   return (
     <Container>
-      <h1>
-        Results for {data.q} total results {data.num_found}
+      <h1 className="text-primary/80 text-center font-light">
+        Results for: {data.q} <br />
+        Total: {data.num_found}
       </h1>
+      <div className="flex gap-4 justify-between">
+        <Link href={"/"} className={buttonVariants({ variant: "outline" })}>
+          <ChevronLeft className="h-[1.2rem] w-[1.2rem]" />
+          Back to start
+        </Link>
+      </div>
       <ul className="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {books.map((book) => (
           <li key={book.key} className="flex items-center gap-4">
