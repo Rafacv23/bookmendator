@@ -71,24 +71,26 @@ export default function SearchForm({ dialog }: { dialog: boolean }) {
                 We will search in our database for the book or author that you
                 want.
               </FormDescription>
-              <div>
-                <FormLabel>Recent Searchs</FormLabel>
-                <ul className="flex flex-col items-start space-y-2 mt-4">
-                  {recentSearches.map((search: string) => (
-                    <li key={search}>
-                      <a
-                        href={`/search/${search}`}
-                        className={buttonVariants({
-                          variant: "outline",
-                          className: "p-0 m-0",
-                        })}
-                      >
-                        <RotateCcw /> {search}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {recentSearches.length > 0 ? (
+                <div>
+                  <FormLabel>Recent Searchs</FormLabel>
+                  <ul className="flex flex-col items-start space-y-2 mt-4">
+                    {recentSearches.map((search: string) => (
+                      <li key={search}>
+                        <a
+                          href={`/search/${search}`}
+                          className={buttonVariants({
+                            variant: "outline",
+                            className: "p-0 m-0",
+                          })}
+                        >
+                          <RotateCcw /> {search}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               <FormMessage />
             </FormItem>
           )}
