@@ -20,18 +20,7 @@ import {
   handleDeleteSearchHistory,
   handleDeleteUserLibrary,
 } from "@/app/settings/actions"
-
-type ButtonConfig = {
-  title: string
-  icon: JSX.Element
-  onClick?: () => void
-}
-
-type SettingConfig = {
-  title: string
-  description?: string
-  buttons: ButtonConfig[]
-}
+import { SettingConfig } from "@/types/types"
 
 export default function SettingsPanel() {
   const { setTheme } = useTheme()

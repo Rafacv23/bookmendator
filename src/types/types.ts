@@ -22,3 +22,15 @@ export interface Message {
   role: "user" | "assistant"
   content: string
 }
+
+export type ButtonConfig = {
+  title: string
+  icon: JSX.Element
+  onClick?: () => void
+}
+
+export type SettingConfig = {
+  title: string
+  description?: string
+  buttons: ButtonConfig[]
+}
