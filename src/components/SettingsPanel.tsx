@@ -2,16 +2,18 @@
 
 import { useTheme } from "next-themes"
 import { Button, buttonVariants } from "./ui/button"
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs"
+import { LogoutLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { LogOut, Moon, Sun, TriangleAlert, User } from "lucide-react"
 import { Card } from "./ui/card"
 import { useToast } from "@/hooks/use-toast"
 import deleteSearchHistory from "@/app/settings/services/deleteSearchHistory"
 import deleteAIModel from "@/app/settings/services/deleteAIModel"
+import deleteUserLibrary from "@/app/settings/services/deleteUserLibrary"
 
 export default function SettingsPanel() {
   const { setTheme } = useTheme()
   const { toast } = useToast()
+  const { user } = useKindeBrowserClient()
 
   const handleDeleteSearchHistory = () => {
     deleteSearchHistory()
@@ -29,6 +31,16 @@ export default function SettingsPanel() {
       title: "AI model deleted",
       description:
         "Your AI model has been deleted, the next time that you want to chat you will need to download it again.",
+      variant: "default",
+      duration: 3000,
+    })
+  }
+
+  const handleDeleteUserLibrary = () => {
+    deleteUserLibrary({ userId: user?.id })
+    toast({
+      title: "Library deleted",
+      description: "Your library has been deleted",
       variant: "default",
       duration: 3000,
     })
@@ -81,7 +93,7 @@ export default function SettingsPanel() {
           <Button onClick={handleDeleteAIModel}>
             Delete the model (AI model)
           </Button>
-          <Button>Delete your library</Button>
+          <Button onClick={handleDeleteUserLibrary}>Delete your library</Button>
           <Button>Delete your account</Button>
         </ul>
       </Card>
