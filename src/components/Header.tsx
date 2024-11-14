@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   MessageSquare,
+  SlidersHorizontal,
   UserPlus,
 } from "lucide-react"
 import {
@@ -76,6 +77,12 @@ export default async function Header() {
                 </Link>
               </DropdownMenuItem>
               <ThemeBtn />
+              <DropdownMenuItem>
+                <Link href={"/settings"} className="flex items-center gap-2 ">
+                  <SlidersHorizontal className="h-[1.2rem] w-[1.2rem]" />
+                  Settings
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <LogoutLink className="flex items-center gap-2">
                   <LogOut className="h-[1.2rem] w-[1.2rem]" />
