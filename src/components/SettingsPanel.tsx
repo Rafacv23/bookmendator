@@ -3,129 +3,116 @@
 import { useTheme } from "next-themes"
 import { Button, buttonVariants } from "./ui/button"
 import { LogoutLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
-import { LogOut, Moon, Sun, TriangleAlert, User } from "lucide-react"
+import {
+  Lock,
+  LockOpen,
+  LogOut,
+  Moon,
+  Sun,
+  TriangleAlert,
+  User,
+} from "lucide-react"
 import { Card } from "./ui/card"
-import { useToast } from "@/hooks/use-toast"
-import deleteSearchHistory from "@/app/settings/services/deleteSearchHistory"
-import deleteAIModel from "@/app/settings/services/deleteAIModel"
-import deleteUserLibrary from "@/app/settings/services/deleteUserLibrary"
-import { changeLibraryVisibility } from "@/app/settings/services/changeLibraryVisibility"
 import { Visibility } from "@prisma/client"
+import {
+  handleChangeLibraryVisibility,
+  handleDeleteAIModel,
+  handleDeleteSearchHistory,
+  handleDeleteUserLibrary,
+} from "@/app/settings/actions"
+
+type ButtonConfig = {
+  title: string
+  icon: JSX.Element
+  onClick?: () => void
+}
+
+type SettingConfig = {
+  title: string
+  description?: string
+  buttons: ButtonConfig[]
+}
 
 export default function SettingsPanel() {
   const { setTheme } = useTheme()
-  const { toast } = useToast()
   const { user } = useKindeBrowserClient()
 
-  const handleDeleteSearchHistory = () => {
-    deleteSearchHistory()
-    toast({
-      title: "Search history deleted",
-      description: "Your search history has been deleted",
-      variant: "default",
-      duration: 3000,
-    })
-  }
-
-  const handleDeleteAIModel = () => {
-    deleteAIModel()
-    toast({
-      title: "AI model deleted",
+  const settings: SettingConfig[] = [
+    {
+      title: "Appearance",
+      description: "Change your favourite theme for the app.",
+      buttons: [
+        { title: "Light", icon: <Sun />, onClick: () => setTheme("light") },
+        { title: "Dark", icon: <Moon />, onClick: () => setTheme("dark") },
+        { title: "System", icon: <User />, onClick: () => setTheme("system") },
+      ],
+    },
+    {
+      title: "Visibility",
+      description: "Change your library visibility (private by default).",
+      buttons: [
+        {
+          title: "Public",
+          icon: <LockOpen />,
+          onClick: () =>
+            handleChangeLibraryVisibility(user?.id, Visibility.public),
+        },
+        {
+          title: "Private",
+          icon: <Lock />,
+          onClick: () =>
+            handleChangeLibraryVisibility(user?.id, Visibility.private),
+        },
+      ],
+    },
+    {
+      title: "Data",
       description:
-        "Your AI model has been deleted, the next time that you want to chat you will need to download it again.",
-      variant: "default",
-      duration: 3000,
-    })
-  }
-
-  const handleDeleteUserLibrary = () => {
-    deleteUserLibrary({ userId: user?.id })
-    toast({
-      title: "Library deleted",
-      description: "Your library has been deleted",
-      variant: "default",
-      duration: 3000,
-    })
-  }
-
-  const handleChangeLibraryVisibility = ({ value }: { value: Visibility }) => {
-    changeLibraryVisibility({ userId: user?.id, value })
-    toast({
-      title: "Library visibility changed to: " + value,
-      description:
-        "Your library visibility has been changed, you can changed when you want.",
-      variant: "default",
-      duration: 3000,
-    })
-  }
+        "Keep in mind that these actions are irreversible. You can't undo these actions.",
+      buttons: [
+        {
+          title: "Delete your search history",
+          icon: <TriangleAlert />,
+          onClick: handleDeleteSearchHistory,
+        },
+        {
+          title: "Delete the AI model",
+          icon: <TriangleAlert />,
+          onClick: handleDeleteAIModel,
+        },
+        {
+          title: "Delete your library",
+          icon: <TriangleAlert />,
+          onClick: () => handleDeleteUserLibrary(user?.id),
+        },
+        {
+          title: "Delete your account",
+          icon: <TriangleAlert />,
+          onClick: () => console.log("deleted account"),
+        },
+      ],
+    },
+  ]
 
   return (
     <Card className="p-8 gap-4 flex flex-col items-start">
-      <h2 className="text-lg font-medium">Appearance</h2>
-      <Card className="p-4 flex flex-col items-start gap-2">
-        <small>Set your favourite theme for the app.</small>
-        <ul className="flex flex-wrap gap-2 mt-2">
-          <Button
-            onClick={() => setTheme("light")}
-            className="hover:cursor-pointer"
-          >
-            <Sun className="h-[1.2rem] w-[1.2rem]" /> Light
-          </Button>
-          <Button
-            onClick={() => setTheme("dark")}
-            className="hover:cursor-pointer"
-          >
-            <Moon className="h-[1.2rem] w-[1.2rem]" /> Dark
-          </Button>
-          <Button
-            onClick={() => setTheme("system")}
-            className="hover:cursor-pointer"
-          >
-            <User className="h-[1.2rem] w-[1.2rem]" /> System
-          </Button>
-        </ul>
-      </Card>
-      <h2 className="text-lg font-medium">Visibility</h2>
-      <Card className="p-4 flex flex-col items-start w-full gap-2">
-        <small>Change your library visibility (private by default).</small>
-        <ul className="flex flex-wrap gap-2 mt-2">
-          <Button
-            onClick={() =>
-              handleChangeLibraryVisibility({
-                value: Visibility.public,
-              })
-            }
-          >
-            Public
-          </Button>
-          <Button
-            onClick={() =>
-              handleChangeLibraryVisibility({
-                value: Visibility.private,
-              })
-            }
-          >
-            Private
-          </Button>
-        </ul>
-      </Card>
-      <h2 className="text-lg font-medium">Data</h2>
-      <Card className="p-4 flex flex-col items-start w-full gap-2">
-        <small className="flex items-center gap-2">
-          <TriangleAlert className="h-[1.2rem] w-[1.2rem]" /> Keep in mind that
-          this actions are irreversible.
-        </small>
-        <ul className="flex flex-col w-full gap-2 mt-2">
-          <Button onClick={handleDeleteSearchHistory}>
-            Delete your searchs history
-          </Button>
-          <Button onClick={handleDeleteAIModel}>
-            Delete the model (AI model)
-          </Button>
-          <Button onClick={handleDeleteUserLibrary}>Delete your library</Button>
-          <Button>Delete your account</Button>
-        </ul>
-      </Card>
+      {settings.map((option) => (
+        <div key={option.title}>
+          <h2 className="text-lg font-medium">{option.title}</h2>
+          <Card className="p-4 flex flex-col w-80 md:w-96 items-start gap-2 mt-4">
+            <small>{option.description}</small>
+            <ul className="flex flex-col w-full gap-2 mt-2">
+              {option.buttons.map((btn) => (
+                <li key={btn.title}>
+                  <Button onClick={btn.onClick} className="w-full">
+                    {btn.icon} {btn.title}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+      ))}
       <h2 className="text-lg font-medium">Manage</h2>
       <Card className="p-4 flex flex-col items-start w-full gap-2">
         <LogoutLink
