@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast"
 import deleteSearchHistory from "@/app/settings/services/deleteSearchHistory"
 import deleteAIModel from "@/app/settings/services/deleteAIModel"
 import deleteUserLibrary from "@/app/settings/services/deleteUserLibrary"
+import { changeLibraryVisibility } from "@/app/settings/services/changeLibraryVisibility"
+import { Visibility } from "@prisma/client"
 
 export default function SettingsPanel() {
   const { setTheme } = useTheme()
@@ -46,6 +48,17 @@ export default function SettingsPanel() {
     })
   }
 
+  const handleChangeLibraryVisibility = ({ value }: { value: Visibility }) => {
+    changeLibraryVisibility({ userId: user?.id, value })
+    toast({
+      title: "Library visibility changed to: " + value,
+      description:
+        "Your library visibility has been changed, you can changed when you want.",
+      variant: "default",
+      duration: 3000,
+    })
+  }
+
   return (
     <Card className="p-8 gap-4 flex flex-col items-start">
       <h2 className="text-lg font-medium">Appearance</h2>
@@ -76,8 +89,24 @@ export default function SettingsPanel() {
       <Card className="p-4 flex flex-col items-start w-full gap-2">
         <small>Change your library visibility (private by default).</small>
         <ul className="flex flex-wrap gap-2 mt-2">
-          <Button>Public</Button>
-          <Button>Private</Button>
+          <Button
+            onClick={() =>
+              handleChangeLibraryVisibility({
+                value: Visibility.public,
+              })
+            }
+          >
+            Public
+          </Button>
+          <Button
+            onClick={() =>
+              handleChangeLibraryVisibility({
+                value: Visibility.private,
+              })
+            }
+          >
+            Private
+          </Button>
         </ul>
       </Card>
       <h2 className="text-lg font-medium">Data</h2>
