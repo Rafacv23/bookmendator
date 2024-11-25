@@ -11,6 +11,7 @@ import isBookInUserLibrary from "./services/isBookInUserLibrary"
 import { SITE_URL } from "@/site/config"
 import { Comments } from "@/types/types"
 import { format } from "date-fns"
+import { formatString } from "@/lib/utils"
 
 export default async function BookPage({
   params,
@@ -61,7 +62,7 @@ export default async function BookPage({
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-bold">{title}</h1>
           <h2 className="text-xl font-semibold">{bookAuthor}</h2>
-          <p>User reviews: {rating}</p>
+          <p>User reviews: {formatString(rating)}</p>
           <div className="xl:mb-8 mb-4">
             <h3 className="text-lg font-semibold">Subjects</h3>
             <ul className="flex flex-wrap gap-2">
