@@ -4,13 +4,14 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export async function GET(
-  request: Request,
-  { params }: { params: { userId: string } }
+  request: Request, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: any
 ) {
   try {
+    const { userId } = context.params
     // check if user exists
     const user = await prisma.user.findUnique({
-      where: { id: params.userId },
+      where: { id: userId },
     })
 
     if (!user) {
@@ -19,7 +20,7 @@ export async function GET(
 
     // retrieve library of the user
     const libraryEntries = await prisma.library.findMany({
-      where: { userId: params.userId },
+      where: { userId: userId },
       orderBy: { modifiedAt: "desc" },
     })
 
