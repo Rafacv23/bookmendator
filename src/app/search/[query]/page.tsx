@@ -1,5 +1,6 @@
 import BookCard from "@/components/BookCard"
 import Container from "@/components/Container"
+import GoingUpBtn from "@/components/GoingUpBtn"
 import { buttonVariants } from "@/components/ui/button"
 import { Book } from "@/types/types"
 import { ChevronLeft } from "lucide-react"
@@ -64,6 +65,7 @@ export default async function SearchPage({
           </li>
         ))}
       </ul>
+      <GoingUpBtn />
     </Container>
   )
 }
