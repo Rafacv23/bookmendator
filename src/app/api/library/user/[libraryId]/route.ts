@@ -4,13 +4,12 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export async function GET(
-  request: Request,
-  { params }: { params: { libraryId: number } }
+  request: Request, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: any
 ) {
   try {
-    const libraryId = Number(params.libraryId)
+    const { libraryId } = context.params
 
-    console.log(libraryId)
     // Check if a library with the given id exists and is public
     const library = await prisma.user.findUnique({
       where: { libraryId: libraryId },
