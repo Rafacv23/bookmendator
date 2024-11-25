@@ -18,15 +18,21 @@ export default async function Page() {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
-  const res = await fetch(`${SITE_URL}/api/library/${user.id}`)
-  const library = await res.json()
+  let library
+  let books
 
-  const books = library.map((entry: LibraryEntry) => ({
-    ...entry.book,
-    libraryId: entry.id,
-    bookReview: entry.bookReview,
-    bookStatus: entry.bookStatus,
-  }))
+  try {
+    const res = await fetch(`${SITE_URL}/api/library/${user.id}`)
+    library = await res.json()
+    books = library.map((entry: LibraryEntry) => ({
+      ...entry.book,
+      libraryId: entry.id,
+      bookReview: entry.bookReview,
+      bookStatus: entry.bookStatus,
+    }))
+  } catch (error) {
+    console.error(error)
+  }
 
   return (
     <Container>
