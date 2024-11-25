@@ -18,7 +18,7 @@ export default async function BookPage({
 }: {
   params: { key: string }
 }) {
-  const key = await params.key
+  const key = params.key
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
