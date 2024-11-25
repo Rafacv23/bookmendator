@@ -20,9 +20,10 @@ interface BookApiResponse {
 export default async function SearchPage({
   params,
 }: {
-  params: { query: string }
+  params: Promise<{ query: string }>
 }) {
-  const url = `https://openlibrary.org/search.json?q=${params.query}`
+  const query = (await params).query
+  const url = `https://openlibrary.org/search.json?q=${query}`
   const response = await fetch(url)
   const data = await response.json()
 

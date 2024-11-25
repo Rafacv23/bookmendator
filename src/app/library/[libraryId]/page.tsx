@@ -15,9 +15,10 @@ interface LibraryEntry {
 export default async function Page({
   params,
 }: {
-  params: { libraryId: number }
+  params: Promise<{ libraryId: number }>
 }) {
-  const res = await fetch(`${SITE_URL}/api/library/user/${params.libraryId}`)
+  const libraryId = (await params).libraryId
+  const res = await fetch(`${SITE_URL}/api/library/user/${libraryId}`)
   const library = await res.json()
 
   const books = Array.isArray(library)
