@@ -33,7 +33,7 @@ export default function BookCard({
 }: BookCardProps) {
   return (
     <Card className="hover:shadow-lg transition-all hover:scale-105 hover:cursor-pointer max-w-sm w-96 h-auto">
-      <Link href={`/book/${id}`}>
+      <Link href={`/book/${id}`} prefetch={true}>
         <CardHeader className="flex flex-row items-center gap-4">
           {cover && (
             <img

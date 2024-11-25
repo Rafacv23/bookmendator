@@ -29,7 +29,9 @@ export default async function Page() {
   let books
 
   try {
-    const res = await fetch(`${SITE_URL}/api/library/${user.id}`)
+    const res = await fetch(`${SITE_URL}/api/library/${user.id}`, {
+      cache: "force-cache",
+    })
     library = await res.json()
     books = library.map((entry: LibraryEntry) => ({
       ...entry.book,
