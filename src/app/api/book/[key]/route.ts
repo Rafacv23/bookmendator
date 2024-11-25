@@ -4,10 +4,11 @@ const prisma = new PrismaClient()
 
 export async function GET(
   request: Request,
-  { params }: { params: { key: string } }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: any
 ) {
   try {
-    const key = params.key
+    const { key } = context.params
 
     const book = await prisma.book.findUnique({
       where: { id: key },
