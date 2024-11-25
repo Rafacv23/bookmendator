@@ -71,20 +71,26 @@ export default async function Header() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="/library" className="flex items-center gap-2">
+                <Link
+                  href="/library"
+                  className="flex items-center gap-2 w-full"
+                >
                   <Library className="h-[1.2rem] w-[1.2rem]" />
                   Library
                 </Link>
               </DropdownMenuItem>
               <ThemeBtn />
               <DropdownMenuItem>
-                <Link href={"/settings"} className="flex items-center gap-2 ">
+                <Link
+                  href={"/settings"}
+                  className="flex items-center gap-2 w-full"
+                >
                   <SlidersHorizontal className="h-[1.2rem] w-[1.2rem]" />
                   Settings
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <LogoutLink className="flex items-center gap-2">
+                <LogoutLink className="flex items-center gap-2 w-full">
                   <LogOut className="h-[1.2rem] w-[1.2rem]" />
                   Logout
                 </LogoutLink>
