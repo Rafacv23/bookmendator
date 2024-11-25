@@ -14,6 +14,8 @@ interface LibraryEntry {
   bookStatus: BookStatus
 }
 
+export const dynamic = "force-dynamic"
+
 async function getUserData() {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
