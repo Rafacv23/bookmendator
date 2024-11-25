@@ -47,7 +47,6 @@ export default function AskForm({ dialog }: { dialog: boolean }) {
                 <TextareaAutosize
                   placeholder="Ask something..."
                   {...field}
-                  autoFocus
                   className="bg-card overflow-hidden resize-none flex min-h-[36px] w-full rounded-md border border-input px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>

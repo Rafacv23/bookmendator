@@ -4,7 +4,7 @@ import SearchForm from "@/components/SearchForm"
 
 export default function Forms({ dialog }: { dialog: boolean }) {
   return (
-    <Tabs defaultValue="ai" className="w-[400px]">
+    <Tabs defaultValue="ai" className="mx-auto">
       <TabsList>
         <TabsTrigger value="ai">AI</TabsTrigger>
         <TabsTrigger value="search">Search</TabsTrigger>
