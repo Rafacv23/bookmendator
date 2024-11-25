@@ -8,7 +8,7 @@ export async function GET(
   context: any
 ) {
   try {
-    const { key } = context.params
+    const { key } = await context.params
 
     const book = await prisma.book.findUnique({
       where: { id: key },

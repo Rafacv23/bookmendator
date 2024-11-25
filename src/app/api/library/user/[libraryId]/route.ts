@@ -8,7 +8,7 @@ export async function GET(
   context: any
 ) {
   try {
-    const { libraryId } = context.params
+    const { libraryId } = await context.params
 
     // Check if a library with the given id exists and is public
     const library = await prisma.user.findUnique({
