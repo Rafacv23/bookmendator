@@ -71,7 +71,7 @@ export default async function Header() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="/library" className="flex items-center gap-2 ">
+                <Link href="/library" className="flex items-center gap-2">
                   <Library className="h-[1.2rem] w-[1.2rem]" />
                   Library
                 </Link>
