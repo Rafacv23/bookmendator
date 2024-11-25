@@ -63,6 +63,8 @@ export default async function Header() {
           </Dialog>
           <DropdownMenu>
             <DropdownMenuTrigger
+              id="menu-button"
+              aria-label="Dropdown menu"
               className={buttonVariants({ variant: "outline" })}
             >
               <Menu />
