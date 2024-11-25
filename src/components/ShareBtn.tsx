@@ -82,7 +82,7 @@ export default function ShareBtn() {
           <DropdownMenuItem key={rrss.name}>
             <rrss.button url={url} title={url}>
               <span className="flex items-center gap-2">
-                <rrss.icon size={32} round /> {rrss.name}
+                <rrss.icon size={32} /> {rrss.name}
               </span>
             </rrss.button>
           </DropdownMenuItem>
