@@ -1,6 +1,11 @@
 "use server"
 
-import { BookReview, BookStatus, PrismaClient } from "@prisma/client"
+import {
+  BookReview,
+  BookStatus,
+  PrismaClient,
+  RatingLabel,
+} from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 const prisma = new PrismaClient()
@@ -36,6 +41,47 @@ export default async function editBookStatus({
         bookId: bookId,
       },
       data: { bookReview: bookReview, bookStatus: bookStatus },
+    })
+
+    const reviews = await prisma.library.findMany({
+      where: {
+        bookId: bookId,
+        bookReview: { not: null }, // Consider only entries with a review
+      },
+    })
+
+    const likes = reviews.filter(
+      (review) => review.bookReview === "like"
+    ).length
+    const dislikes = reviews.filter(
+      (review) => review.bookReview === "dislike"
+    ).length
+    const totalReviews = likes + dislikes
+
+    // Determine the new rating label
+    let newRating: RatingLabel = RatingLabel.unrated
+    if (totalReviews > 0) {
+      const likeRatio = likes / totalReviews
+
+      if (likeRatio >= 0.9) {
+        newRating = RatingLabel.extremelyPositive
+      } else if (likeRatio >= 0.75) {
+        newRating = RatingLabel.veryPositive
+      } else if (likeRatio >= 0.5) {
+        newRating = RatingLabel.mostlyPositive
+      } else if (likeRatio >= 0.25) {
+        newRating = RatingLabel.mixed
+      } else if (likeRatio >= 0.1) {
+        newRating = RatingLabel.negative
+      } else {
+        newRating = RatingLabel.veryNegative
+      }
+    }
+
+    // whe are going to recalculate the average rating of the book with the new rating in consideration
+    await prisma.book.update({
+      where: { id: bookId },
+      data: { rating: newRating },
     })
 
     revalidatePath("/library")
