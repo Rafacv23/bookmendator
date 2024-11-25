@@ -4,11 +4,11 @@ const prisma = new PrismaClient()
 
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } }
+  context: { params: { userId: string } } // Fix the second argument type
 ) {
-  try {
-    const userId = params.userId
+  const { userId } = context.params // Destructure `userId` from `context.params`
 
+  try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
     })
