@@ -14,9 +14,14 @@ interface LibraryEntry {
   bookStatus: BookStatus
 }
 
-export default async function Page() {
+async function getUserData() {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
+  return user
+}
+
+export default async function Page() {
+  const user = await getUserData()
 
   let library
   let books
