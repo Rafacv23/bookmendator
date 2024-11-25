@@ -1,4 +1,4 @@
-export const SITE_URL = "http://localhost:3000"
+export const SITE_URL = "https://bookmendator.vercel.app/"
 export const SITE_NAME = "Bookmendator"
 export const HERO_SUBTITLE =
   "Your Personal Library, Enhanced with AI-Driven Book Discovery"
