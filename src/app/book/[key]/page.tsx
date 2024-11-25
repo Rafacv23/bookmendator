@@ -16,9 +16,9 @@ import { formatString } from "@/lib/utils"
 export default async function BookPage({
   params,
 }: {
-  params: { key: string }
+  params: Promise<{ key: string }>
 }) {
-  const key = params.key
+  const key = (await params).key
   const { getUser } = getKindeServerSession()
   const user = await getUser()
 
