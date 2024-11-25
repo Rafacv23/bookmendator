@@ -43,10 +43,10 @@ export default async function Header() {
     <header className="row-start-1 flex gap-6 flex-wrap items-center justify-between p-4 fixed z-50 mx-0 w-full backdrop-blur-md bg-card/50 rounded-b-lg">
       {user ? (
         <>
-          <Button variant={"outline"}>
+          <Link href="/chat" className={buttonVariants({ variant: "outline" })}>
             <MessageSquare />
             <span className="hidden sm:block">Chats</span>
-          </Button>
+          </Link>
           <Dialog>
             <DialogTrigger asChild>
               <SpecialBtn>Ask | Search</SpecialBtn>
