@@ -46,7 +46,7 @@ export default async function BookPage({
     const libraryResponse = await fetch(`${SITE_URL}/api/${user.id}/libraryId`)
     libraryId = await libraryResponse.json()
   }
-  const res = await fetch(`${SITE_URL}/api/book/${key}/comments`)
+  const res = await fetch(`${SITE_URL}/api/book/comments/${key}`)
   const comments = await res.json()
 
   return (
